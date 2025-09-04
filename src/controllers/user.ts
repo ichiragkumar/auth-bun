@@ -4,11 +4,19 @@ import { supabase } from "../config/supabase";
 import { ENV } from "../config/env";
 import { AuthenticatedRequest } from "../middlewares/auth";
 import { ResponseHandler } from "../utils/responseHandler";
+import { userEmailSchema, userPasswordSchema, userSchema } from "../zod/user";
 
 
 
 export const loginUser = (req: Request, res: Response) => {
   const { username, password } = req.body;
+
+  const loginUserData = userSchema.safeParse(req.body);
+  if (!loginUserData.success) {
+    return ResponseHandler.badRequest(res, null, loginUserData.error.message);
+  }
+
+
   if (username === "admin" && password === "password123") {
     const token = jwt.sign({ username, role: "admin" }, ENV.JWT_SECRET!, {
       expiresIn: "1h",
@@ -21,6 +29,11 @@ export const loginUser = (req: Request, res: Response) => {
 
 export const registerUser = (req: Request, res: Response) => {
   const { username, password } = req.body;
+  const loginUserData = userSchema.safeParse(req.body);
+  if (!loginUserData.success) {
+    return ResponseHandler.badRequest(res, null, loginUserData.error.message);
+  }
+
   const savedUser = { username, password }; 
   return ResponseHandler.created(res, savedUser, "User registered");
 };
@@ -34,6 +47,13 @@ export const getProfile = (req: AuthenticatedRequest, res: Response) => {
 export const sendOtpEmail = async (req: Request, res: Response) => {
   const { email } = req.body;
   try {
+
+    const useEmailData = userEmailSchema.safeParse(req.body);
+    if (!useEmailData.success) {
+      return ResponseHandler.badRequest(res, null, useEmailData.error.message);
+    }
+
+    
     if (!email) return ResponseHandler.badRequest(res, null, "Email required");
 
     const { error } = await supabase.auth.signInWithOtp({ email });
@@ -49,6 +69,13 @@ export const sendOtpEmail = async (req: Request, res: Response) => {
 export const sendOtpSms = async (req: Request, res: Response) => {
   const { phone } = req.body;
   try {
+
+    const usePhoneData = userPasswordSchema.safeParse(req.body);
+    if (!usePhoneData.success) {
+      return ResponseHandler.badRequest(res, null, usePhoneData.error.message);
+    }
+
+    
     if (!phone) return ResponseHandler.badRequest(res, null, "Phone required");
 
     const { error } = await supabase.auth.signInWithOtp({ phone });
@@ -93,6 +120,13 @@ export const verifyOtp = async (req: Request, res: Response) => {
 
 export const signupUser = (req: Request, res: Response) => {
   const { username, password } = req.body;
+
+  const loginUserData = userSchema.safeParse(req.body);
+  if (!loginUserData.success) {
+    return ResponseHandler.badRequest(res, null, loginUserData.error.message);
+  }
+
+  
   const savedUser = { username, password };
   return ResponseHandler.created(res, savedUser, "User registered");
 };

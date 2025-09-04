@@ -7,6 +7,7 @@ export class EnvKeys {
   static readonly JWT_SECRET = "JWT_SECRET";
   static readonly SUPABASE_URL = "SUPABASE_URL";
   static readonly SUPABASE_SERVICE_ROLE_KEY = "SUPABASE_SERVICE_ROLE_KEY";
+  static readonly SUPABASE_JWT_SECRET = "SUPABASE_JWT_SECRET";
 }
 
 
@@ -15,7 +16,8 @@ export const ENV = {
   NODE_ENV: process.env[EnvKeys.NODE_ENV] ,
   JWT_SECRET : process.env[EnvKeys.JWT_SECRET] ,
   SUPABASE_URL : process.env[EnvKeys.SUPABASE_URL] ,
-  SUPABASE_SERVICE_ROLE_KEY : process.env[EnvKeys.SUPABASE_SERVICE_ROLE_KEY]
+  SUPABASE_SERVICE_ROLE_KEY : process.env[EnvKeys.SUPABASE_SERVICE_ROLE_KEY],
+  SUPABASE_JWT_SECRET : process.env[EnvKeys.SUPABASE_JWT_SECRET]
 
 } as const;
 
@@ -24,7 +26,8 @@ const requiredEnvVars = [
     EnvKeys.NODE_ENV,
     EnvKeys.JWT_SECRET,
     EnvKeys.SUPABASE_URL,
-    EnvKeys.SUPABASE_SERVICE_ROLE_KEY
+    EnvKeys.SUPABASE_SERVICE_ROLE_KEY,
+    EnvKeys.SUPABASE_JWT_SECRET
 
 ];
 
