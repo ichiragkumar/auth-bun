@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "dev": "bunx tsx watch src/index.ts"
+    "dev": "bunx tsx watch src/index.ts",
+    "build": "bunx tsx src/index.ts",
+    "start": "bunx tsx src/index.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.0",

@@ -9,13 +9,11 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("🚀 Express running on Bun + TypeScript!");
+app.get("/health", (req: Request, res: Response) => {
+  res.send("🚀 Express running on Bun + TypeScript! 🚀");
 });
 
-app.get("/ping", (req: Request, res: Response) => {
-  res.json({ message: "pong" });
-});
+
 
 
 app.listen(ENV.PORT, () => {
